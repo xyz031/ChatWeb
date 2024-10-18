@@ -1,17 +1,10 @@
-import {
-  Box,
-  Container,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-} from "@chakra-ui/react";
-import { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
+import { Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Spinner } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
-import Login from "../components/Authentication/Login";
-import Signup from "../components/Authentication/Signup";
+
+// Lazy load the Login and Signup components
+const Login = lazy(() => import("../components/Authentication/Login"));
+const Signup = lazy(() => import("../components/Authentication/Signup"));
 
 function Homepage() {
   const navigate = useNavigate();
@@ -46,10 +39,14 @@ function Homepage() {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Login />
+              <Suspense fallback={<Spinner size="xl" />}>
+                <Login />
+              </Suspense>
             </TabPanel>
             <TabPanel>
-              <Signup />
+              <Suspense fallback={<Spinner size="xl" />}>
+                <Signup />
+              </Suspense>
             </TabPanel>
           </TabPanels>
         </Tabs>
